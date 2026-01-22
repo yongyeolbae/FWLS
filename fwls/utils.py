@@ -10,11 +10,7 @@ def imread_korean(path):
     except Exception as e:
         raise FileNotFoundError(f"Error loading {path}: {e}")
 
-def penalty_to_lambda(penalty: float) -> float:
-    p = float(penalty)
-    if p >= 1.0: return 1e6
-    if p <= 0.0: return 0.0
-    return p / (1.0 - p)
+
 
 def normalize_diff_minmax(diff_u8: np.ndarray, roi_mask_bool=None) -> np.ndarray:
     """Min-max normalize uint8 map to [0,255] globally or within ROI."""
@@ -56,5 +52,6 @@ def sigmoid_weight_from_diff(diff_u8: np.ndarray, k=0.10, center=30.0, roi_mask_
 def binarize_mask_u8(mask_u8: np.ndarray, thr: int = 127) -> np.ndarray:
     """Return boolean mask from uint8 mask."""
     return (mask_u8 > thr)
+
 
 
