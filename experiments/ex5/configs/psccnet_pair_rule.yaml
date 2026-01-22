@@ -1,1 +1,59 @@
+data:
+  img_dir:
+  mask_dir: 
+  img_size: 256
+
+split:
+  seed: 13
+  test_ratio: 0.15
+  val_ratio_in_train: 0.15
+
+model:
+  name: "psccnet_lite"
+  backbone: "resnet34"
+  pretrained: true
+  deep_supervision:
+    enabled: true
+    weights: [1.0, 0.6, 0.4, 0.2]
+
+train:
+  epochs: 10
+  batch_size: 4
+  lr: 2e-4
+  weight_decay: 1e-2
+  grad_clip: 1.0
+  num_workers: 0
+
+loss:
+  experiments:
+    - { name: "Pure_BCE",   mode: "bce" }
+    - { name: "Pure_WBCE",  mode: "wbce" }
+    - { name: "Pure_Dice",  mode: "dice" }
+    - { name: "Pure_WDice", mode: "wdice" }
+
+weight_map:
+  enabled_for: ["wbce", "wdice"]
+  method: "brightness_propagation_update_count"
+  k: 0.10
+  power: 0.4
+  clip_min: 0.5
+  clip_max: 1.0
+  center_stat: "mean"
+  max_limit: 900
+  step_size: 1
+
+threshold:
+  criterion: "IoU"
+  sweep:
+    start: 0.05
+    stop: 0.95
+    steps: 19
+
+output:
+  out_dir: 
+  save_best_weights: true
+  save_json: true
+
+logging:
+  verbose: true
 
