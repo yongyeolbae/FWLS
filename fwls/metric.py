@@ -30,10 +30,7 @@ def fwls_score(
     c_max: int = 255,
     gamma: float = 0.4,           # w ** gamma
 ):
-    """
-    FWLS wrapper (your current 'calculate_user_metric_wrapper').
-    Returns a single float score (mean over center c sweep).
-    """
+
     G = binarize_mask_u8(gt_mask_u8, 127)
     P = binarize_mask_u8(pred_mask_u8, 127)
     lam = penalty_to_lambda(penalty)
@@ -59,5 +56,6 @@ def fwls_score(
         scores.append(weighted_score(G, P, w, lam=lam))
 
     return float(np.mean(scores))
+
 
 
