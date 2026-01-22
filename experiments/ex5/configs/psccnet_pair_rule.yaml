@@ -17,7 +17,7 @@ model:
     weights: [1.0, 0.6, 0.4, 0.2]
 
 train:
-  epochs: 10
+  epochs: 50
   batch_size: 4
   lr: 2e-4
   weight_decay: 1e-2
